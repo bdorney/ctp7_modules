@@ -1162,7 +1162,7 @@ std::vector<uint32_t> dacScanLocal(localArgs *la, uint32_t ohN, uint32_t dacSele
             //for backward compatibility, use ADC1 instead of ADC1_CACHED if it exists
             if((foundAdcCached = la->dbi.get(la->rtxn, strRegBase + "ADC1_CACHED"))){
                 adcAddr[vfatN] = getAddress(la, strRegBase + "ADC1_CACHED");
-                adcCacheUpdateAddr[vfatN] = getAddress(la, strRegBase + "ADC1_UPDATE");                
+                adcCacheUpdateAddr[vfatN] = getAddress(la, strRegBase + "ADC1_UPDATE");
             }
             else
                 adcAddr[vfatN] = getAddress(la, strRegBase + "ADC1");
@@ -1295,7 +1295,7 @@ void dacScanMultiLink(const RPCMsg *request, RPCMsg *response){
         // If this Optohybrid is masked skip it
         if(!((ohMask >> ohN) & 0x1)){
             int dacMax = std::get<2>(dacInfo.map_dacInfo[dacSelect]);
-            dacScanResults.resize( (dacMax+1)*24/dacStep );
+            dacScanResults.assign( (dacMax+1)*24/dacStep, 0xdeaddead );
             std::copy(dacScanResults.begin(), dacScanResults.end(), std::back_inserter(dacScanResultsAll));
             continue;
         }
